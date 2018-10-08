@@ -1,5 +1,5 @@
 ---
-services: Resources
+services: Storage
 platforms: dotnet
 author: seyadava
 ---
