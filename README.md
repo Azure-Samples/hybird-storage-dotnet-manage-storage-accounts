@@ -6,7 +6,7 @@ author: seyadava
 
 # Getting Started with Storage - Manage Storage Accounts in Hybrid Environment - in C# asynchronously #  
 
-Azure Stack resource sample for managing resource groups - 
+Azure Stack sample for managing storage accounts - 
 - Create a storage account
 - Get | regenerate storage account access keys
 - Create another storage account
