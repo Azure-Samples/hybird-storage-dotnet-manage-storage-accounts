@@ -4,7 +4,7 @@ platforms: dotnet
 author: seyadava
 ---
 
-## Getting Started with Storage - Manage Storage Accounts in Hybrid Environment - in C# asynchronously ##  
+# Hybrid-Storage-DotNET-Manage-StorageAccounts #  
 
 Azure Stack sample for managing storage accounts - 
 - Create a storage account
