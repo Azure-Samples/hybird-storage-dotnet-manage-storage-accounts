@@ -1,5 +1,5 @@
 ---
-services: Azure Stack
+services: Azure-Stack
 platforms: dotnet
 author: seyadava
 ---
