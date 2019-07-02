@@ -1,4 +1,10 @@
 ---
+topic: sample
+languages:
+ - dotnet
+ - csharp
+products:
+ - azure-sdks
 services: Azure-Stack
 platforms: dotnet
 author: seyadava
