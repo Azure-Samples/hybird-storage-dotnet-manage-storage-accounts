@@ -1,14 +1,13 @@
 ---
-topic: sample
+page_type: sample
 languages:
- - dotnet
- - csharp
+- csharp
 products:
- - azure-sdks
-services: Azure-Stack
-platforms: dotnet
-author: seyadava
+- azure
+description: "Azure Stack sample for managing storage accounts"
+urlFragment: hybird-storage-dotnet-manage-storage-accounts
 ---
+
 
 # Hybrid-Storage-DotNET-Manage-StorageAccounts #  
 
