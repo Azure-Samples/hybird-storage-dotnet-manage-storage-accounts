@@ -5,11 +5,11 @@ languages:
 products:
 - azure
 description: "Azure Stack sample for managing storage accounts"
-urlFragment: hybird-storage-dotnet-manage-storage-accounts
+urlFragment: hybrid-storage-dotnet-manage-storage-accounts
 ---
 
 
-# Hybrid-Storage-DotNET-Manage-StorageAccounts #  
+# Hybrid-Storage-DotNET-Manage-StorageAccounts
 
 Azure Stack sample for managing storage accounts - 
 - Create a storage account
