@@ -30,28 +30,23 @@ To run this sample:
 2. Create an Azure service principal and assign a role to access the subscription. For instructions on creating a service principal in Azure Stack, see [Use Azure PowerShell to create a service principal with a certificate](https://docs.microsoft.com/en-us/azure/azure-stack/azure-stack-create-service-principals). 
 
 3. Set the following required environment variable values:
-
+    * AZURE_ARM_ENDPOINT
+    * AZURE_LOCATION
     * AZURE_TENANT_ID
-
-    * AZURE_CLIENT_ID
-
-    * AZURE_CLIENT_SECRET
-
+    * AZURE_SP_APP_ID
+    * AZURE_SP_APP_SECRET
     * AZURE_SUBSCRIPTION_ID
 
-    * ARM_ENDPOINT
-
-    * RESOURCE_LOCATION
-
 4. Change directory to sample:
-
-    * cd hybird-storage-dotnet-manage-storage-accounts
+    ```
+    cd hybird-storage-dotnet-manage-storage-accounts
+    ```
 
 5. Run the sample:
-
+    ```
     dotnet restore
-
     dotnet run
+    ```
 
 ## More information ##
 

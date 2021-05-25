@@ -8,8 +8,8 @@
     using System.Net.Http;
     using System.Threading.Tasks;
 
-    using Profile2018ResourceManager = Microsoft.Azure.Management.Profiles.hybrid_2018_03_01.ResourceManager;
-    using Profile2018Storage = Microsoft.Azure.Management.Profiles.hybrid_2018_03_01.Storage;
+    using ProfileResourceManager = Microsoft.Azure.Management.Profiles.hybrid_2020_09_01.ResourceManager;
+    using ProfileStorage = Microsoft.Azure.Management.Profiles.hybrid_2020_09_01.Storage;
     using Microsoft.Azure.Management.ResourceManager.Fluent;
     using Microsoft.Rest;
     using Microsoft.Rest.Azure.Authentication;
@@ -40,7 +40,7 @@
                 Console.WriteLine(String.Format("Creating a resource group with name:{0}", resourceGroupName));
                 var rmCreateTask = rmClient.ResourceGroups.CreateOrUpdateWithHttpMessagesAsync(
                     resourceGroupName,
-                    new Profile2018ResourceManager.Models.ResourceGroup
+                    new ProfileResourceManager.Models.ResourceGroup
                     {
                         Location = location
                     });
@@ -55,11 +55,11 @@
             try
             {
                 Console.WriteLine(String.Format("Creating a storage account with name:{0}", storageAccountName));
-                var storageProperties = new Profile2018Storage.Models.StorageAccountCreateParameters
+                var storageProperties = new ProfileStorage.Models.StorageAccountCreateParameters
                 {
                     Location = location,
-                    Kind = Profile2018Storage.Models.Kind.Storage,
-                    Sku = new Profile2018Storage.Models.Sku(Profile2018Storage.Models.SkuName.StandardLRS)
+                    Kind = ProfileStorage.Models.Kind.Storage,
+                    Sku = new ProfileStorage.Models.Sku(ProfileStorage.Models.SkuName.StandardLRS)
                 };
 
                 var storageTask = storageClient.StorageAccounts.CreateWithHttpMessagesAsync(resourceGroupName, storageAccountName, storageProperties);
@@ -87,7 +87,7 @@
                 var storageAccountRegenerateTask = storageClient.StorageAccounts.RegenerateKeyWithHttpMessagesAsync(
                     resourceGroupName,
                     storageAccountName,
-                    new Profile2018Storage.Models.StorageAccountRegenerateKeyParameters
+                    new ProfileStorage.Models.StorageAccountRegenerateKeyParameters
                     {
                         KeyName = storageAccountKeysResults[0].KeyName
                     });
@@ -107,11 +107,11 @@
             try
             {
                 Console.WriteLine(String.Format("Creating a storage account with name: {0}", storageAccount2Name));
-                var storageProperties = new Profile2018Storage.Models.StorageAccountCreateParameters
+                var storageProperties = new ProfileStorage.Models.StorageAccountCreateParameters
                 {
                     Location = location,
-                    Kind = Profile2018Storage.Models.Kind.Storage,
-                    Sku = new Profile2018Storage.Models.Sku(Profile2018Storage.Models.SkuName.StandardLRS)
+                    Kind = ProfileStorage.Models.Kind.Storage,
+                    Sku = new ProfileStorage.Models.Sku(ProfileStorage.Models.SkuName.StandardLRS)
                 };
 
                 var storageTask = storageClient.StorageAccounts.CreateWithHttpMessagesAsync(resourceGroupName, storageAccount2Name, storageProperties);
@@ -126,23 +126,25 @@
             try
             {
                 Console.WriteLine(String.Format("Enabling blob encryption for the storage account: {0}", storageAccount2Name));
-                var storageAccountUpdateTask = storageClient.StorageAccounts.UpdateWithHttpMessagesAsync(resourceGroupName, storageAccount2Name, new Profile2018Storage.Models.StorageAccountUpdateParameters
+                var storageAccountUpdateTask = storageClient.StorageAccounts.UpdateWithHttpMessagesAsync(resourceGroupName, storageAccount2Name, new ProfileStorage.Models.StorageAccountUpdateParameters
                 {
-                    Encryption = new Profile2018Storage.Models.Encryption(new Profile2018Storage.Models.EncryptionServices
-                    {
-                        Blob = new Profile2018Storage.Models.EncryptionService()
-                    })
+                    Encryption = new ProfileStorage.Models.Encryption{
+                        Services = new ProfileStorage.Models.EncryptionServices
+                        {
+                            Blob = new ProfileStorage.Models.EncryptionService()
+                        }
+                    }
                 });
 
                 storageAccountUpdateTask.Wait();
                 var status = storageAccountUpdateTask.Result?.Body?.Encryption?.Services?.Blob?.Enabled.Value;
                 if (status.HasValue && status.Value)
                 {
-                    Console.WriteLine(String.Format("Encryption status of the service  {0} is enabled", storageAccount2Name));
+                    Console.WriteLine(String.Format("Encryption status of the service {0} is enabled", storageAccount2Name));
                 }
                 else
                 {
-                    Console.WriteLine(String.Format("Encryption status of the service  {0} is not enabled", storageAccount2Name));
+                    Console.WriteLine(String.Format("Encryption status of the service {0} is not enabled", storageAccount2Name));
                 }
             }
             catch (Exception ex)
@@ -151,7 +153,7 @@
             }
 
             // List storage accounts.
-            var storageAccountResults = new List<Profile2018Storage.Models.StorageAccount>();
+            var storageAccountResults = new List<ProfileStorage.Models.StorageAccount>();
             try
             {
                 Console.WriteLine("Listing storage accounts");
@@ -222,20 +224,20 @@
 
         static void Main(string[] args)
         {
-            //Set variables
-            var location = Environment.GetEnvironmentVariable("RESOURCE_LOCATION");
-            var baseUriString = Environment.GetEnvironmentVariable("ARM_ENDPOINT");
-            var servicePrincipalId = Environment.GetEnvironmentVariable("AZURE_CLIENT_ID");
-            var servicePrincipalSecret = Environment.GetEnvironmentVariable("AZURE_CLIENT_SECRET");
+            // Get variables
+            var baseUriString = Environment.GetEnvironmentVariable("AZURE_ARM_ENDPOINT");
+            var location = Environment.GetEnvironmentVariable("AZURE_LOCATION");
             var tenantId = Environment.GetEnvironmentVariable("AZURE_TENANT_ID");
+            var servicePrincipalId = Environment.GetEnvironmentVariable("AZURE_SP_APP_ID");
+            var servicePrincipalSecret = Environment.GetEnvironmentVariable("AZURE_SP_APP_SECRET");
             var subscriptionId = Environment.GetEnvironmentVariable("AZURE_SUBSCRIPTION_ID");
 
             runSample(tenantId, subscriptionId, servicePrincipalId, servicePrincipalSecret, location, baseUriString);
         }
 
-        private static Profile2018Storage.StorageManagementClient GetStorageClient(Uri baseUri, ServiceClientCredentials credential, string subscriptionId)
+        private static ProfileStorage.StorageManagementClient GetStorageClient(Uri baseUri, ServiceClientCredentials credential, string subscriptionId)
         {
-            var client = new Profile2018Storage.StorageManagementClient(baseUri: baseUri, credentials: credential)
+            var client = new ProfileStorage.StorageManagementClient(baseUri: baseUri, credentials: credential)
             {
                 SubscriptionId = subscriptionId
             };
@@ -244,9 +246,9 @@
             return client;
         }
 
-        private static Profile2018ResourceManager.ResourceManagementClient GetResourceManagementClient(Uri baseUri, ServiceClientCredentials credential, string subscriptionId)
+        private static ProfileResourceManager.ResourceManagementClient GetResourceManagementClient(Uri baseUri, ServiceClientCredentials credential, string subscriptionId)
         {
-            var client = new Profile2018ResourceManager.ResourceManagementClient(baseUri: baseUri, credentials: credential)
+            var client = new ProfileResourceManager.ResourceManagementClient(baseUri: baseUri, credentials: credential)
             {
                 SubscriptionId = subscriptionId
             };
